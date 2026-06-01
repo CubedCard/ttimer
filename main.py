@@ -3,6 +3,7 @@ import threading
 import keyboard
 import time
 import datetime
+from colorama import Fore, Style
 
 running = True
 started = False
@@ -13,6 +14,13 @@ start = datetime.datetime.now()
 def write_time():
     with open("scores.txt", "a", encoding="utf-8") as f:
         f.write(f"{t}\n")
+
+
+def welcome():
+    print(
+        f"{Fore.GREEN}Welcome to the TTIMER. Press <space> to start and <q> to quit. Have fun!"
+    )
+    print(Style.RESET_ALL)
 
 
 def format_time(t):
@@ -51,7 +59,7 @@ def listen():
                     write_time()
                 time.sleep(0.1)
             if keyboard.is_pressed("q"):
-                print("See ya!")
+                print("\rSee ya!")
                 break
         except Exception as e:  # TODO: do something with the exit status
             running = False
@@ -61,6 +69,7 @@ def listen():
 
 
 def main():
+    welcome()
     thread = threading.Thread(target=timer, daemon=True)
     thread.start()
     listen()
